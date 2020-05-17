@@ -19,7 +19,7 @@ const RouteConfigs = {
     component: HomeScreen,
     options: {
       tabBarIcon: ({color, size}) => (
-        <Icon.Ionicons name={isIOS ? 'ios-bookmarks' : 'md-bookmarks'} size={10} color={color}/>
+        <Icon.Ionicons name={isIOS ? 'ios-bookmarks' : 'md-bookmarks'} size={size} color={color}/>
       ),
       title: "Decks",
     },
@@ -29,7 +29,7 @@ const RouteConfigs = {
     name: "New deck",
     options: {
       tabBarIcon: ({color, size}) => (
-        <Icon.FontAwesome name="plus-square" size={10} color={color}/>
+        <Icon.FontAwesome name="plus-square" size={size} color={color}/>
       ),
       title: "New deck",
     },

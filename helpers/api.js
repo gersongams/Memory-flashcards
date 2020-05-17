@@ -22,3 +22,12 @@ export const removeDeck = (key) => {
     AsyncStorage.setItem(DATA_STORAGE_KEY, JSON.stringify(data));
   });
 };
+
+
+export const addCardToDeck = (key, question, answer) => {
+  return AsyncStorage.getItem(DATA_STORAGE_KEY).then((result) => {
+    let decks = JSON.parse(result)
+    decks[key].questions.push({question: question, answer: answer})
+    AsyncStorage.mergeItem(DATA_STORAGE_KEY, JSON.stringify(decks))
+  })
+};

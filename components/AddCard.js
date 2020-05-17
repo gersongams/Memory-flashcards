@@ -6,6 +6,7 @@ import {addCard} from "../actions";
 import {useNavigation} from "@react-navigation/native";
 import Colors from "../constants/Colors";
 import StyledInput from "./StyledInput";
+import {addCardToDeck} from "../helpers/api";
 
 const AddCard = ({route}) => {
   const dispatch = useDispatch()
@@ -21,6 +22,7 @@ const AddCard = ({route}) => {
     }
     dispatch(addCard(deckId, newQuestion))
     navigation.goBack()
+    addCardToDeck(deckId, question, answer)
     setQuestion('')
     setAnswer('')
   }
