@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
@@ -15,7 +15,7 @@ export default function useCachedResources() {
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
-          'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
+          'nunito': require('../assets/fonts/Nunito-Regular.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service

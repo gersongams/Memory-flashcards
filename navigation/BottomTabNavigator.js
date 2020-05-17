@@ -1,48 +1,81 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import * as React from 'react';
-
-import TabBarIcon from '../components/TabBarIcon';
+import {Platform} from 'react-native';
+import * as Icon from '@expo/vector-icons';
+import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import NewDeckScreen from '../screens/NewDeckScreen';
 
-const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'Home';
+const isIOS = Platform.OS === "ios";
 
-export default function BottomTabNavigator({ navigation, route }) {
-  // Set the header title on the parent stack navigator depending on the
-  // currently active tab. Learn more in the documentation:
-  // https://reactnavigation.org/docs/en/screen-options-resolution.html
-  navigation.setOptions({ headerTitle: getHeaderTitle(route) });
+const Tab =
+  isIOS
+    ? createBottomTabNavigator()
+    : createMaterialTopTabNavigator();
 
-  return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
-      <BottomTab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          title: 'Get Started',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
-        }}
-      />
-      <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
-        options={{
-          title: 'Resources',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
-        }}
-      />
-    </BottomTab.Navigator>
-  );
-}
+const RouteConfigs = {
+  Decks: {
+    name: "Decks",
+    component: HomeScreen,
+    options: {
+      tabBarIcon: ({color, size}) => (
+        <Icon.Ionicons name={isIOS ? 'ios-bookmarks' : 'md-bookmarks'} size={10} color={color}/>
+      ),
+      title: "Decks",
+    },
+  },
+  NewDeck: {
+    component: NewDeckScreen,
+    name: "New deck",
+    options: {
+      tabBarIcon: ({color, size}) => (
+        <Icon.FontAwesome name="plus-square" size={10} color={color}/>
+      ),
+      title: "New deck",
+    },
+  },
+};
 
-function getHeaderTitle(route) {
-  const routeName = route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
 
-  switch (routeName) {
-    case 'Home':
-      return 'How to get started';
-    case 'Links':
-      return 'Links to learn more';
+const tabNavigatorConfig = {
+  initialRouteName: "Decks",
+  navigationOptions: {
+    header: null
+  },
+  defaultNavigationOptions: {
+    bounces: true
+  },
+  tabBarOptions: {
+    activeTintColor: "white",
+    inactiveTintColor: 'gray',
+    style: {
+      height: 60,
+      backgroundColor: '#3700b3',
+      shadowColor: 'rgba(0,0,0, 0.24)',
+      shadowOffset: {
+        width: 0,
+        height: 3
+      },
+      shadowRadius: 6,
+      shadowOpacity: 1,
+    },
+    labelStyle: {
+      fontSize: 14,
+      fontWeight: 'bold',
+    },
+    tabStyle: {
+      marginTop: 5,
+      marginBottom: 3
+    },
+    showIcon: isIOS
   }
-}
+};
+
+const TabNav = () => (
+  <Tab.Navigator {...tabNavigatorConfig}>
+    <Tab.Screen {...RouteConfigs["Decks"]} />
+    <Tab.Screen {...RouteConfigs["NewDeck"]} />
+  </Tab.Navigator>
+);
+
+export default TabNav
